@@ -77,7 +77,7 @@ function changeDirection(direction){
     }
 }
 
-function isGameOver(){
+function isSnakeTouchnigWall(){
     if(snake[0].x < 0 || snake[0].x >= 500 || snake[0].y < 0 || snake[0].y >= 500){
         return true;
     }
@@ -86,18 +86,29 @@ function isGameOver(){
     }
 }
 
+function isSnakeTouchingItself(){
+    for(let i=0; i<snake.length; i++){
+        if(i > 0){
+            if((snake[0].x == snake[i].x) && (snake[0].y == snake[i].y)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function numberBetween(min, max){
     return Math.floor(Math.random() * (max-min+1) + min);
 }
 
 function isFieldOccupied(x, y){
     for(const snakeField of snake){
-        if((snakeField.x && snakeField.y) == (x, y)){
+        if((snakeField.x == x) && (snakeField.y == y)){
             return true;
         }
     }
     for(const appleField of apples){
-        if((appleField.x && appleField.y) == (x, y)){
+        if((appleField.x == x) && (appleField.y == y)){
             return true;
         }
     }
@@ -105,10 +116,10 @@ function isFieldOccupied(x, y){
 
 function addFood(){
     if(tiksSinceLastFood % betweenFoodPeroid === 0){
-        let newApple = {x: numberBetween(1, 50)*10, y: numberBetween(1, 50)*10};
+        let newApple = {x: numberBetween(0, 49)*10, y: numberBetween(0, 49)*10};
         if(!isFieldOccupied(newApple.x, newApple.y)){
             apples.push(newApple);
-            console.log("dodano nowe jabłko: " + newApple.x + ", " + newApple.y);
+            //console.log("dodano nowe jabłko: " + newApple.x + ", " + newApple.y);
         }
         else{
             console.log('POLE ZAJETE', newApple.x, newApple.y);
@@ -130,7 +141,22 @@ function drawFood(){
     apples.forEach(drawFoodPiece);
 }
 
+function increaseSizeOfSnake(){
+    let a = snake[snake.length-1].x + horizontalSpeed;
+    let b = snake[snake.length-1].y + verticalSpeed;
+    let newSnakePart = {a, b};
+    snake.push(newSnakePart);
+}
 
+function isFoodBeingEaten(){
+    for(let i = 0; i < apples.length; i++){
+        if((apples[i].x == snake[0].x) && (apples[i].y == snake[0].y)){
+            //console.log('usuwanie: ' + apples[i].x + ' ' + apples[i].y);
+            apples.splice(i, 1);
+            increaseSizeOfSnake();
+        }
+    }
+}
 
 
 
@@ -163,11 +189,15 @@ document.onkeydown = function key(e){
 function main(){
     setTimeout(function onTick() {
         resetGameField();
-        moveSnake()
+        moveSnake();
+        isFoodBeingEaten();
         drawSnake();
         addFood();
         drawFood();
-        if(!isGameOver()){
+        
+        //console.log('sciana: ' + isSnakeTouchnigWall() + ' siebie: ' + isSnakeTouchingItself());
+
+        if(!isSnakeTouchnigWall() && !isSnakeTouchingItself()){
             main();
         }
         else{
