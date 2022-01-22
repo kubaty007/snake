@@ -1,6 +1,42 @@
-#gamefield{
+#wrapper{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#panel{
+    width: 500px;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+}
+input[type=color]{
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+#kolory{
+    width: 40%;
+}
+
+#wynik{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+#aktualnePkt{
+    width: 100%;
+}
+
+#przyciski{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

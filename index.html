@@ -8,7 +8,30 @@
      <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
  </head>
  <body>
-     <canvas id="gamefield" height="500px" width="500px"></canvas>
+     <div id="wrapper">
+         <div id="panel">
+             <div id="kolory">
+                <input type="color" value="#90EE90" id="canvasColor" onchange="changeColors()">
+                kolor pola gry: <br/>
+
+                <input type="color" value="#ADD8E6" id="snakeColor" onchange="changeColors()">
+                kolor węża <br/>
+                 
+                <input type="color" value="#FFC0CB" id="fruitColor" onchange="changeColors()">
+                kolor owoców: <br/>
+             </div>
+             <div id="wynik">
+                <div id="aktualnePkt">0</div>
+                <div id="rekord">rekord: <span id="maxPkt">0</span></div>
+                <button onclick="">reset</button>
+             </div>
+             <div id="przyciski">
+                <button onclick="restartGame()">Start</button>
+             </div>
+         </div>
+        <canvas id="gamefield" height="500px" width="500px"></canvas>
+     </div>
+     
 
      <script src='main.js'></script>
  </body>
